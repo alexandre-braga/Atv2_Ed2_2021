@@ -38,7 +38,6 @@ size_t lz77::encontraMaior(std::string dicionario, std::string buffer, size_t& p
         //verificação normal
         if(dicionario[i] == buffer[j] && repeticao == false){
             maior++;
-            pos++;
             i++;
             j++;
         }
@@ -49,18 +48,20 @@ size_t lz77::encontraMaior(std::string dicionario, std::string buffer, size_t& p
             j++;
         }
         else{
+            if(repeticao == false)
+                pos = i + 1 - maior;
+            std::cerr << "pos: " << pos << " i: " << i << " maior: " << maior << std::endl;
             i = contador;
             contador++;
             j = 0;
-            if (maior >= ultimoMaior){
+            if (maior > ultimoMaior){
                 ultimoMaior = maior;
                 ultimoPos = pos;
-                pos = 0;
             }
             maior = 0;
         }
     }
-    if(ultimoMaior > maior){
+    if(ultimoMaior >= maior){
         pos = ultimoPos;
         return ultimoMaior;
     }
@@ -103,6 +104,12 @@ void lz77::codifica(std::string entrada){
         //l é o comprimento da maior sequência
         size_t maior = encontraMaior(dicionario, buffer, pAtual);
 
+        std::cerr << "\npAtual: " << pAtual << std::endl;
+        if(maior != 0){
+            pAtual = dicionario.size() - pAtual;
+        }
+        else
+            pAtual = 0;
         //c é o símbolo do buffer que se segue à sequência
         char simbolo = entrada[i+maior];
         if(i + maior >= entrada.length()){
@@ -119,4 +126,23 @@ void lz77::codifica(std::string entrada){
 		i += maior + 1;
 	}
 
+}
+
+
+std::string lz77::decodifica(std::vector<lz77Code>& codigos)
+{
+	std::string decodificado;
+
+	for (auto& code : codigos)
+	{
+		size_t p = decodificado.size() - code.getP();
+
+		for(size_t i = 0; i < code.getL(); i++, p++) {
+            decodificado.push_back(decodificado[p]);
+        }
+
+		if (code.getC() != '\0')
+			decodificado.push_back(code.getC());
+	}
+	return decodificado;
 }

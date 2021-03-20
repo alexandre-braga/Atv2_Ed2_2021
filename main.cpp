@@ -47,6 +47,8 @@ int main(int argc, char *argv[])
         for (size_t i = 0; i < codigos.size(); i++) {
             saida << codigos.at(i) << " ";
         }
+        std::string stringOriginal = codificador.decodifica(codigos);
+        std::cerr << "\nString Original: " << stringOriginal << std::endl;
         saida.close();
         arquivo.close();
     }

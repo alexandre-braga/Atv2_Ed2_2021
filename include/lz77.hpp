@@ -16,6 +16,7 @@ class lz77
         std::vector<lz77Code> getCodigos();
         size_t encontraMaior(std::string dicionario, std::string buffer, size_t& pos);
         void codifica(std::string entrada);
+        std::string decodifica(std::vector<lz77Code>& codigos);
 };
 
 std::ostream& operator<<(std::ostream& out, lz77Code& code);
