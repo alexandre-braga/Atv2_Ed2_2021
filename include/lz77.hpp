@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <string>
-#include "lz77Code.cpp"
+#include "lz77Code.hpp"
 
 class lz77
 {
@@ -13,6 +13,8 @@ class lz77
         std::vector<lz77Code> codigos;
     public:
         lz77(size_t Nd, size_t Nb);
+        std::vector<lz77Code> getCodigos();
+        size_t encontraMaior(std::string dicionario, std::string buffer, size_t& pos);
         void codifica(std::string entrada);
 };
 
