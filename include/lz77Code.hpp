@@ -12,8 +12,10 @@ class lz77Code {
         void setL(size_t l);
         void setC(char c);
         size_t getP();
+        size_t getL();
+        char getC();
 };
 
-std::ostream& operator<<(std::ostream& out, const lz77Code& code);
+std::ostream& operator<<(std::ostream& out, lz77Code& code);
 
 #endif /* LZ77CODE_HPP */

@@ -18,4 +18,6 @@ class lz77
         void codifica(std::string entrada);
 };
 
+std::ostream& operator<<(std::ostream& out, lz77Code& code);
+
 #endif /* LZ77_HPP */
