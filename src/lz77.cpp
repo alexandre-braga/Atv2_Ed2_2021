@@ -12,22 +12,60 @@ std::vector<lz77Code> lz77::getCodigos(){
 size_t lz77::encontraMaior(std::string dicionario, std::string buffer, size_t& pos){
     
     size_t maior = 0;
+    size_t ultimoMaior = 0;
+    size_t ultimoPos = 0;
+    size_t contador = 0;
+    bool repeticao = false;
 
+    std::cerr << "\ndicionarioInteiro: " << dicionario << " bufferInteiro: " << buffer << std::endl;
+    //2 for é uma opção
     for (size_t i = 0, j = 0; i < this->compDicionario && j < this->compBuffer;){
+        //se o buffer chegar no final retorna
         if(buffer[j] == '\0'){
-            return maior;
+            if(ultimoMaior > maior){
+                pos = ultimoPos;
+                return ultimoMaior;
+            }
+            else
+                return maior;
         }
-        if(dicionario[i] == buffer[j]){
+        //repetição do dicionario pra l > p
+        if(maior > 0 && dicionario[i] == '\0'){
+            i = i - maior;
+            repeticao = true;
+        }
+        std::cerr << "dicionario: " << dicionario[i] << " buffer: " << buffer[j] << std::endl;
+        //verificação normal
+        if(dicionario[i] == buffer[j] && repeticao == false){
             maior++;
             pos++;
             i++;
             j++;
         }
-        else{
+        //repetição do dicionario pra l > p
+        else if(dicionario[i] == buffer[j] && repeticao == true){
+            maior++;
             i++;
+            j++;
+        }
+        else{
+            i = contador;
+            contador++;
+            j = 0;
+            if (maior >= ultimoMaior){
+                ultimoMaior = maior;
+                ultimoPos = pos;
+                pos = 0;
+            }
+            maior = 0;
         }
     }
-	return maior;
+    if(ultimoMaior > maior){
+        pos = ultimoPos;
+        return ultimoMaior;
+    }
+    else
+        return maior;
 
 }
 
